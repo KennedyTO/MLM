@@ -9,7 +9,7 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-### In this exercise, we are interested in modeling math grades (math) of students who were nested within different schools (schcode). We are also interested in determining if the sex of the student (female, 0 = male; 1 = female) or the average socioeconomic status of the school (ses_mean) affects math grades. We are only going to focus on random intercept models, no random slope models. This exercise will use the dataset 'heck2011.csv', which is available on eClass. Use α = .05 for all questions.
+#### In this exercise, we are interested in modeling math grades (math) of students who were nested within different schools (schcode). We are also interested in determining if the sex of the student (female, 0 = male; 1 = female) or the average socioeconomic status of the school (ses_mean) affects math grades. We are only going to focus on random intercept models, no random slope models. This exercise will use the dataset 'heck2011.csv', which is available on eClass. Use α = .05 for all questions.
 
 ```{r}
 # Load the data

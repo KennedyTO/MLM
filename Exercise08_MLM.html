@@ -366,12 +366,48 @@ male; 1 = female) or the average socioeconomic status of the school
 intercept models, no random slope models. This exercise will use the
 dataset ‘heck2011.csv’, which is available on eClass. Use α = .05 for
 all questions.</h3>
+<pre class="r"><code># Load the data
+d &lt;- read.csv(&quot;~/Desktop/P4330/P4330 R code/Exercise09_MLM/MLM/heck2011.csv&quot;)
+head(d)</code></pre>
+<pre><code>##   schcode Rid   id female    ses femses  math ses_mean    pro4yrc public
+## 1       1   1 6701      1  0.586  0.586 47.14 -0.26675 0.08333333      0
+## 2       1   2 6702      1  0.304  0.304 63.61 -0.26675 0.08333333      0
+## 3       1   3 6703      1 -0.544 -0.544 57.71 -0.26675 0.08333333      0
+## 4       1   4 6704      0 -0.848  0.000 53.90 -0.26675 0.08333333      0
+## 5       1   5 6705      0  0.001  0.000 58.01 -0.26675 0.08333333      0
+## 6       1   6 6706      0 -0.106  0.000 59.87 -0.26675 0.08333333      0</code></pre>
+<pre class="r"><code># Load the library
+library(lme4)</code></pre>
+<pre><code>## Loading required package: Matrix</code></pre>
 <div id="run-the-null-intercept-only-model-no-predictors-but-include-schcode-as-the-nesting-variable.-interpret-each-of-the-parameters-within-the-output.-also-calculate-the-proportion-of-variability-attributable-to-the-school-variable-i.e.-intraclass-correlation-coefficient-icc." class="section level4">
 <h4>1. Run the null (intercept only) model (no predictors, but include
 schcode as the nesting variable). Interpret each of the parameters
 within the output. Also, calculate the proportion of variability
 attributable to the school variable (i.e., intraclass correlation
 coefficient, ICC).</h4>
+<pre class="r"><code>length(unique(d$schcode))</code></pre>
+<pre><code>## [1] 419</code></pre>
+<pre class="r"><code>m &lt;- lmer(math ~ 1 + (1|schcode), data = d)
+summary(m)</code></pre>
+<pre><code>## Linear mixed model fit by REML [&#39;lmerMod&#39;]
+## Formula: math ~ 1 + (1 | schcode)
+##    Data: d
+## 
+## REML criterion at convergence: 48877.3
+## 
+## Scaled residuals: 
+##     Min      1Q  Median      3Q     Max 
+## -3.6336 -0.5732  0.1921  0.6115  5.2989 
+## 
+## Random effects:
+##  Groups   Name        Variance Std.Dev.
+##  schcode  (Intercept) 10.64    3.262   
+##  Residual             66.55    8.158   
+## Number of obs: 6871, groups:  schcode, 419
+## 
+## Fixed effects:
+##             Estimate Std. Error t value
+## (Intercept)  57.6742     0.1883   306.3</code></pre>
 </div>
 <div id="include-female-as-a-level-1-predictor-but-only-model-the-intercept-as-a-random-factor.-again-interpret-all-parameters-you-can-ignore-the-correlation-of-fixed-effects." class="section level4">
 <h4>2. Include female as a level 1 predictor, but only model the

@@ -9,7 +9,7 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-#### In this exercise, we are interested in modeling math grades (math) of students who were nested within different schools (schcode). We are also interested in determining if the sex of the student (female, 0 = male; 1 = female) or the average socioeconomic status of the school (ses_mean) affects math grades. We are only going to focus on random intercept models, no random slope models. This exercise will use the dataset 'heck2011.csv', which is available on eClass. Use α = .05 for all questions.
+### In this exercise, we are interested in modeling math grades (math) of students who were nested within different schools (schcode). We are also interested in determining if the sex of the student (female, 0 = male; 1 = female) or the average socioeconomic status of the school (ses_mean) affects math grades. We are only going to focus on random intercept models, no random slope models. This exercise will use the dataset 'heck2011.csv', which is available on eClass. Use α = .05 for all questions.
 
 ```{r}
 # Load the data
@@ -24,10 +24,124 @@ library(lme4)
 
 ```{r}
 length(unique(d$schcode))
+
+# Establish a model
 m <- lmer(math ~ 1 + (1|schcode), data = d)
+
+#Output Summary
 summary(m)
+
+#find γ(00), SD(u(0j)), SD(e(ij))
+
+#γ(00): Overall average of all schools
+fixef(m)
+
+#u(0j): How much each school deviates from the γ(00)
+ranef(m)
+
+#e(ij): Variance of each student from the average score of the school.
+head(residuals(m))
+
+library(performance)
+icc(m) # If ICC is close to zero, it does not justify 
+# Approximately 14% of the variance is due to 
+# between school variance
 ```
 
+##### Interpretation of the Q1 Summary:
+
+This model is the simplest model without a predictor. Under the random effect.
+
+**REML criterion [Residual Maximum Likelihood]:**
+
+REML gives the value that enables comparison with other models. For instance, the REML convergence value of this model is 48877.3 where as 48843.4 on the following model accounting for "Female." The smaller the value indicates the better fit of the model.
+
+**Scaled residual:**
+
+Scale residuals are the differences between the observed values and the values predicted by the model, adjusted to a common scale. This helps in comparing residuals of different sizes.
+
+| Min                                               | 1Q                                               | Median                                                                                                                                                    | 3Q                                            | Max                                             |
+|-------------|-------------|----------------------|-------------|-------------|
+| -3.6336                                           | -0.5732                                          | 0.1921                                                                                                                                                    | 0.6115                                        | 5.2989                                          |
+| The most significant underestimation by the model | 25% of the residuals are greater than this value | Half of the schools had residuals smaller than this. A positive median suggests that the model is slightly more likely to underestimate the actual scores | 75% of the residuals are less than this value | This is the largest overestimation by the model |
+
+**Random Effects:**
+
+| Groups         | Name              | Variance      | SD           |
+|----------------|-------------------|---------------|--------------|
+| schcode        | Intercept [𝞬(00)] | 10.64 [u(0j)] | 3.262        |
+| Residual       | \-                | 66.55 [eij]   | 8.158        |
+| Number of obs: | 6871              | Groups:       | Schcode: 419 |
+
+**Interpretation:**
+
+**Y(ij)**:
+
+represents the math score for the i-th student in the j-th schoo.
+
+**𝞬(00)**:
+
+represents the overall average math score of all 419 schools, which stands as the "Intercept" (57.6742 points)
+
+**u(0j)**:
+
+10.64 is the random effect (the variability of the j-th school) away from 𝞬(00). It is the average variability of each school away from the overall average variability of 419 schools.
+
+**e(ij)**:
+
+is the residual error term for the i-th student in the j-th school. Residual 66.55 is a measure of how much the math scores of individual students vary around the mean math score for their specific school, [*after accounting for the random effects due to differences between schools.*]{.underline}
+
+**Fixed Effects:**
+
+|             | Estimate                                                                                                                      | SE                                                                                            | t-value                                                                                                                                                                  |
+|------------------|------------------|------------------|------------------|
+| (Intercept) | 57.6742 [𝞬(00)]                                                                                                               | 0.1883                                                                                        | 306.3                                                                                                                                                                    |
+|             | This is the estimated average math score for the reference group. It's the estimated grand mean math score across all schools | The standard error measures the uncertainty or variability in the estimate of the intercept.  | The t-value is very high, suggesting that the intercept is significantly different from zero, and you can be very confident that the true average math score is not zero |
+
 #### 2. Include female as a level 1 predictor, but only model the intercept as a random factor. Again, interpret all parameters (you can ignore the 'correlation of fixed effects').
+
+```{r}
+# Yij = 𝞬00 + 𝞬(10)Female(ij) + eij 
+m02 <- lmer(math ~ female + (1 | schcode), data = d)
+summary(m02)
+```
+
+##### Interpretation of the Q2 Summary:
+
+**REML:**
+
+criterion at convergence: 48843.4. This value is smaller than Q1 REML value: 48877.3, indicating this model is a better fit compared to the model1.
+
+**Scaled residuals:**
+
+```         
+##     Min      1Q  Median      3Q     Max 
+## -3.5790 -0.5658  0.1874  0.6217  5.3706 
+```
+
+The most significant underestimation of the model was -3.5790. The 1st quartile indicates where the lower 25% of residuals lie and it is -0.5658. Half of the schools had residuals smaller than 0.1874. A positive median suggests that the model is slightly more likely to underestimate the actual scores. 75% of the residuals are less than 0.6217. And the largest overestimation by the model is 5.3706.
+
+**Random Effects:**
+
+```         
+##  Groups   Name        Variance Std.Dev.
+##  schcode  (Intercept) 10.53    3.244   
+##  Residual             66.24    8.139   
+## Number of obs: 6871, groups:  schcode, 419
+```
+
+The residual terms for the school [u{0j)] is 10.53 and the corresponding SD is 3.244. This indicates that average deviation of math scores for all 419 schools is 10.53 from the intercept [𝞬(00)] 58.2820. This variance is the unexplained component of the model.
+
+Residual 66.24 is a measure of how much the math scores of individual students vary around the mean math score for their specific school, [*after accounting for the random effects due to differences between schools.*]{.underline}
+
+**Fixed Effects:**
+
+```         
+##             Estimate Std. Error t value
+## (Intercept)  58.2820     0.2135  272.97
+## female       -1.2076     0.2033   -5.94
+```
+
+Compared to the male students, female students is estimated to have -1.2076 points in average accounting for the random effects of different schools.
 
 #### 3. Remove female as a level 1 predictor, and add ses_mean as a level 2 predictor. Again, interpret all parameters (you can ignore the 'correlation of fixed effects'). Recompute the ICC to see if adding the level 2 predictor ses_mean reduced the proportion of variance due to the between- subjects factor (i.e., did ses_mean explain a significant proportion of between school variance?).

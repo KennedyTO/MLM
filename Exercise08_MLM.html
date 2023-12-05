@@ -387,7 +387,10 @@ attributable to the school variable (i.e., intraclass correlation
 coefficient, ICC).</h4>
 <pre class="r"><code>length(unique(d$schcode))</code></pre>
 <pre><code>## [1] 419</code></pre>
-<pre class="r"><code>m &lt;- lmer(math ~ 1 + (1|schcode), data = d)
+<pre class="r"><code># Establish a model
+m &lt;- lmer(math ~ 1 + (1|schcode), data = d)
+
+#Output Summary
 summary(m)</code></pre>
 <pre><code>## Linear mixed model fit by REML [&#39;lmerMod&#39;]
 ## Formula: math ~ 1 + (1 | schcode)
@@ -408,11 +411,649 @@ summary(m)</code></pre>
 ## Fixed effects:
 ##             Estimate Std. Error t value
 ## (Intercept)  57.6742     0.1883   306.3</code></pre>
+<pre class="r"><code>#find γ(00), SD(u(0j)), SD(e(ij))
+
+#γ(00): Overall average of all schools
+fixef(m)</code></pre>
+<pre><code>## (Intercept) 
+##    57.67423</code></pre>
+<pre class="r"><code>#u(0j): How much each school deviates from the γ(00)
+ranef(m)</code></pre>
+<pre><code>## $schcode
+##     (Intercept)
+## 1    0.86944582
+## 2    4.02527933
+## 3   -7.49862045
+## 4    5.84355259
+## 5   -6.99273392
+## 6    2.41386089
+## 7   -0.21600857
+## 8    3.06072338
+## 9   -2.08872864
+## 10   2.97644658
+## 11  -0.93968877
+## 12  -1.75880082
+## 13   0.62040961
+## 14   0.15554027
+## 15   4.45782835
+## 16  -1.58781509
+## 17  -2.46845124
+## 18   3.15553275
+## 19   0.06108159
+## 20   1.10604330
+## 21   1.62779778
+## 22  -1.40611156
+## 23   1.64178988
+## 24   0.37850752
+## 25  -1.71812243
+## 26   2.55425780
+## 27  -3.07230904
+## 28   5.19184291
+## 29   1.62285539
+## 30  -1.67931654
+## 31  -1.36314110
+## 32   3.78038582
+## 33  -4.33676671
+## 34  -0.45023699
+## 35   2.34261052
+## 36  -3.89661446
+## 37   2.71221674
+## 38  -1.69268733
+## 39  -0.15447003
+## 40  -3.83796187
+## 41   1.79182300
+## 42   0.07399514
+## 43   0.89396237
+## 44   3.11688594
+## 45   2.05530476
+## 46  -0.53330967
+## 47  -4.21066012
+## 48  -0.38824437
+## 49  -0.15089004
+## 50  -4.04212658
+## 51   1.92909686
+## 52   3.03499509
+## 53   1.91951130
+## 54   4.92890692
+## 55  -7.42096692
+## 56  -1.04847118
+## 57   0.51594866
+## 58   0.48968470
+## 59   1.01988303
+## 60  -3.54320023
+## 61   1.56258352
+## 62  -8.54943562
+## 63   1.23673042
+## 64   0.84608685
+## 65   3.80620504
+## 66  -1.41762857
+## 67   1.86635851
+## 68  -0.28903064
+## 69  -3.86297089
+## 70   4.64507831
+## 71  -2.01571889
+## 72  -5.55472511
+## 73  -0.35613908
+## 74   5.17070654
+## 75   0.09951987
+## 76   0.14053688
+## 77   4.55352437
+## 78  -1.42384355
+## 79  -2.69513827
+## 80   4.33781348
+## 81  -2.65248076
+## 82   1.34815847
+## 83   2.55248424
+## 84   3.20793920
+## 85   0.59315020
+## 86  -1.41982609
+## 87   1.91584179
+## 88   1.57470002
+## 89   0.25529383
+## 90   3.23215823
+## 91   0.16553354
+## 92   2.38295744
+## 93  -2.06305402
+## 94   1.95262351
+## 95  -0.16047686
+## 96   1.89322969
+## 97   3.37164017
+## 98   0.52128515
+## 99  -0.83081795
+## 100  0.83537301
+## 101 -0.26720453
+## 102 -0.12582035
+## 103  6.81445045
+## 104  0.24790893
+## 105  1.29785027
+## 106 -4.51970861
+## 107  5.59242045
+## 108  0.64856269
+## 109  4.18093275
+## 110 -1.57713152
+## 111 -1.24260517
+## 112  1.32441131
+## 113  1.16441048
+## 114 -1.44907430
+## 115  3.07537805
+## 116 -8.62715139
+## 117 -2.33482306
+## 118 -0.40772083
+## 119  2.07663052
+## 120  3.85642052
+## 121  0.41088715
+## 122 -3.48750981
+## 123  0.44608866
+## 124  1.75605627
+## 125 -1.18238188
+## 126 -0.42297664
+## 127  3.01332406
+## 128  0.51507237
+## 129 -2.47195249
+## 130 -1.51603101
+## 131 -1.05091237
+## 132 -3.33310282
+## 133  4.45701066
+## 134  0.27755127
+## 135 -4.72038595
+## 136 -0.57343140
+## 137  0.15416332
+## 138 -0.40833919
+## 139 -1.25412532
+## 140  5.50286395
+## 141  1.39194513
+## 142  2.69232633
+## 143  2.25310265
+## 144 -1.23000690
+## 145  0.02018181
+## 146  0.72168422
+## 147  0.21829722
+## 148 -3.64816823
+## 149 -0.30754396
+## 150  3.69989908
+## 151 -2.84847042
+## 152  3.35141839
+## 153  6.75329485
+## 154 -1.25804102
+## 155 -2.84843895
+## 156  3.86799200
+## 157  1.71548030
+## 158  1.52688282
+## 159  0.23929138
+## 160  1.70010468
+## 161 -2.23435733
+## 162 -0.45750928
+## 163 -2.31606188
+## 164  0.12676930
+## 165 -1.51507171
+## 166 -3.30780013
+## 167  0.44191366
+## 168  1.72673764
+## 169 -0.67818389
+## 170  0.31985222
+## 171 -0.77380962
+## 172  0.18165889
+## 173  4.11129704
+## 174 -1.61227519
+## 175  1.07860408
+## 176  1.28208194
+## 177 -0.39049190
+## 178  5.35770908
+## 179 -2.02909451
+## 180  0.91452075
+## 181  0.63267187
+## 182  3.07862937
+## 183  1.19805746
+## 184 -0.36759998
+## 185 -5.43420906
+## 186 -5.25649251
+## 187 -1.44543525
+## 188  3.18880639
+## 189 -4.00169560
+## 190 -0.92186072
+## 191 -0.99186851
+## 192  3.51658867
+## 193 -2.93546364
+## 194  2.76658183
+## 195  0.52228203
+## 196 -1.19484615
+## 197 -8.14383555
+## 198 -1.81649241
+## 199 -0.40010394
+## 200 -2.82916033
+## 201  0.78927390
+## 202  2.99477554
+## 203 -0.13649688
+## 204  0.56608098
+## 205 -2.53152247
+## 206 -1.74898588
+## 207 -0.30828412
+## 208 -2.95828496
+## 209  2.88969729
+## 210 -3.86178119
+## 211 -1.51934329
+## 212 -3.48672693
+## 213  2.59042583
+## 214 -3.61881200
+## 215  0.64909165
+## 216  1.58177592
+## 217  3.02033939
+## 218 -0.99239727
+## 219 -0.39501569
+## 220 -5.47349889
+## 221  3.19976057
+## 222 -3.32110383
+## 223 -5.76496690
+## 224  1.76647796
+## 225 -3.61926499
+## 226  3.49948818
+## 227 -1.53171304
+## 228  0.03340806
+## 229  2.41698255
+## 230  1.47183018
+## 231 -2.40804615
+## 232 -0.05739055
+## 233  0.69455845
+## 234  0.99794543
+## 235  3.00932986
+## 236 -0.53167877
+## 237 -2.31000402
+## 238  0.54522239
+## 239 -2.83459155
+## 240  3.13799994
+## 241  4.28545073
+## 242 -0.78758956
+## 243 -5.12561968
+## 244  1.46006794
+## 245  2.28941313
+## 246 -6.46107046
+## 247 -1.39275818
+## 248  1.48640606
+## 249 -3.86414857
+## 250 -3.65019397
+## 251  2.65494248
+## 252  4.38979917
+## 253 -1.74102558
+## 254 -2.07444690
+## 255  0.51099187
+## 256  0.90002632
+## 257  5.85284153
+## 258  0.84795029
+## 259 -3.98604798
+## 260 -1.45221870
+## 261 -1.27871823
+## 262  3.43195562
+## 263 -0.82070240
+## 264 -3.95949943
+## 265 -2.37409076
+## 266 -2.86424371
+## 267  0.67491834
+## 268  2.18516336
+## 269 -2.04450336
+## 270  2.15492914
+## 271  2.22138226
+## 272 -0.91466506
+## 273 -0.18805221
+## 274  3.25302173
+## 275  4.65235002
+## 276 -1.03756229
+## 277 -0.05406262
+## 278  1.54989809
+## 279  0.59881931
+## 280 -0.01500536
+## 281  5.20088615
+## 282  6.01934263
+## 283 -1.79949592
+## 284  1.61280019
+## 285 -1.77409847
+## 286 -1.42984088
+## 287 -3.96927121
+## 288  3.80333165
+## 289 -0.94018091
+## 290 -2.53924153
+## 291 -1.13984924
+## 292 -1.37317416
+## 293 -1.77558387
+## 294  1.06331589
+## 295 -5.18233228
+## 296  1.64870529
+## 297 -6.58182605
+## 298  0.35240965
+## 299  0.82997805
+## 300 -0.51999302
+## 301 -2.66667042
+## 302 -3.13592629
+## 303  4.57382874
+## 304  2.28496374
+## 305 -1.74372991
+## 306 -2.63561248
+## 307  2.14892684
+## 308  1.49520967
+## 309  1.00395924
+## 310 -1.54170910
+## 311  4.21563711
+## 312 -0.74930464
+## 313 -3.42325531
+## 314  0.07979456
+## 315  0.59914744
+## 316 -3.90898003
+## 317  0.66539384
+## 318 -0.24968435
+## 319 -0.58935050
+## 320  1.75151411
+## 321  0.97418302
+## 322 -0.53590925
+## 323  1.14292498
+## 324  1.40495859
+## 325  3.09798557
+## 326 -0.51979237
+## 327  3.11845021
+## 328  3.95283470
+## 329  3.74593386
+## 330 -3.57431389
+## 331  0.30194980
+## 332  0.08676230
+## 333  2.52567728
+## 334  2.40143466
+## 335  4.35025623
+## 336 -0.47057899
+## 337 -0.21413073
+## 338 -1.31410971
+## 339 -4.63983265
+## 340 -4.20561963
+## 341  2.25420026
+## 342 -2.63567143
+## 343  2.39491784
+## 344 -0.52200709
+## 345  0.38832187
+## 346  1.03654363
+## 347  0.01091557
+## 348  4.39366986
+## 349  0.21417286
+## 350  0.85877225
+## 351  1.26414765
+## 352  3.31283437
+## 353  1.44855872
+## 354  3.12135595
+## 355 -0.18582361
+## 356  1.60589478
+## 357  0.31997833
+## 358 -0.22387007
+## 359 -0.04958264
+## 360 -2.74097300
+## 361 -1.43469270
+## 362 -6.17544440
+## 363 -4.27769833
+## 364 -2.86698512
+## 365  2.83789433
+## 366  2.27138528
+## 367  1.84040974
+## 368  4.61021811
+## 369  4.56046101
+## 370 -2.07695405
+## 371 -3.84419747
+## 372 -0.91703686
+## 373  1.09168243
+## 374  1.25339609
+## 375 -3.11054334
+## 376  1.17363782
+## 377 -2.37586354
+## 378 -1.92785916
+## 379  0.36139972
+## 380  0.68258148
+## 381  2.73724691
+## 382 -3.81146709
+## 383 -5.81661189
+## 384  0.11633972
+## 385 -3.39005315
+## 386  1.06893881
+## 387 -3.95417749
+## 388  0.70987339
+## 389 -0.48346654
+## 390  4.38963287
+## 391 -1.93682163
+## 392  2.46156134
+## 393 -1.31667156
+## 394 -3.18986643
+## 395  3.17186410
+## 396 -1.88835945
+## 397  0.59707557
+## 398  1.47923643
+## 399 -3.59596464
+## 400 -0.56769934
+## 401  0.88881968
+## 402 -3.18277500
+## 403  2.52970228
+## 404  1.43210721
+## 405 -0.07081518
+## 406  0.25738493
+## 407 -0.74360847
+## 408 -2.12995136
+## 409 -5.85458054
+## 410 -0.96001324
+## 411  1.61504228
+## 412  0.46921938
+## 413  1.51245642
+## 414 -0.43866156
+## 415  3.66537120
+## 416  0.96652755
+## 417 -6.28669170
+## 418 -0.93199276
+## 419 -2.41811139
+## 
+## with conditional variances for &quot;schcode&quot;</code></pre>
+<pre class="r"><code>#e(ij): Variance of each student from the average score of the school.
+head(residuals(m))</code></pre>
+<pre><code>##           1           2           3           4           5           6 
+## -11.4036795   5.0663205  -0.8336795  -4.6436795  -0.5336795   1.3263205</code></pre>
+<pre class="r"><code>library(performance)
+icc(m) # If ICC is close to zero, it does not justify </code></pre>
+<pre><code>## # Intraclass Correlation Coefficient
+## 
+##     Adjusted ICC: 0.138
+##   Unadjusted ICC: 0.138</code></pre>
+<pre class="r"><code># Approximately 14% of the variance is due to 
+# between school variance</code></pre>
+<div id="interpretation-of-the-q1-summary" class="section level5">
+<h5>Interpretation of the Q1 Summary:</h5>
+<p>This model is the simplest model without a predictor. Under the
+random effect.</p>
+<p><strong>REML criterion [Residual Maximum Likelihood]:</strong></p>
+<p>REML gives the value that enables comparison with other models. For
+instance, the REML convergence value of this model is 48877.3 where as
+48843.4 on the following model accounting for “Female.” The smaller the
+value indicates the better fit of the model.</p>
+<p><strong>Scaled residual:</strong></p>
+<p>Scale residuals are the differences between the observed values and
+the values predicted by the model, adjusted to a common scale. This
+helps in comparing residuals of different sizes.</p>
+<table>
+<colgroup>
+<col width="17%" />
+<col width="17%" />
+<col width="29%" />
+<col width="17%" />
+<col width="17%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Min</th>
+<th>1Q</th>
+<th>Median</th>
+<th>3Q</th>
+<th>Max</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>-3.6336</td>
+<td>-0.5732</td>
+<td>0.1921</td>
+<td>0.6115</td>
+<td>5.2989</td>
+</tr>
+<tr class="even">
+<td>The most significant underestimation by the model</td>
+<td>25% of the residuals are greater than this value</td>
+<td>Half of the schools had residuals smaller than this. A positive
+median suggests that the model is slightly more likely to underestimate
+the actual scores</td>
+<td>75% of the residuals are less than this value</td>
+<td>This is the largest overestimation by the model</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Random Effects:</strong></p>
+<table>
+<thead>
+<tr class="header">
+<th>Groups</th>
+<th>Name</th>
+<th>Variance</th>
+<th>SD</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>schcode</td>
+<td>Intercept [𝞬(00)]</td>
+<td>10.64 [u(0j)]</td>
+<td>3.262</td>
+</tr>
+<tr class="even">
+<td>Residual</td>
+<td>-</td>
+<td>66.55 [eij]</td>
+<td>8.158</td>
+</tr>
+<tr class="odd">
+<td>Number of obs:</td>
+<td>6871</td>
+<td>Groups:</td>
+<td>Schcode: 419</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Interpretation:</strong></p>
+<p><strong>Y(ij)</strong>:</p>
+<p>represents the math score for the i-th student in the j-th schoo.</p>
+<p><strong>𝞬(00)</strong>:</p>
+<p>represents the overall average math score of all 419 schools, which
+stands as the “Intercept” (57.6742 points)</p>
+<p><strong>u(0j)</strong>:</p>
+<p>10.64 is the random effect (the variability of the j-th school) away
+from 𝞬(00). It is the average variability of each school away from the
+overall average variability of 419 schools.</p>
+<p><strong>e(ij)</strong>:</p>
+<p>is the residual error term for the i-th student in the j-th school.
+Residual 66.55 is a measure of how much the math scores of individual
+students vary around the mean math score for their specific school,
+<u><em>after accounting for the random effects due to differences
+between schools.</em></u></p>
+<p><strong>Fixed Effects:</strong></p>
+<table>
+<colgroup>
+<col width="25%" />
+<col width="25%" />
+<col width="25%" />
+<col width="25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th>Estimate</th>
+<th>SE</th>
+<th>t-value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>(Intercept)</td>
+<td>57.6742 [𝞬(00)]</td>
+<td>0.1883</td>
+<td>306.3</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>This is the estimated average math score for the reference group.
+It’s the estimated grand mean math score across all schools</td>
+<td>The standard error measures the uncertainty or variability in the
+estimate of the intercept.</td>
+<td>The t-value is very high, suggesting that the intercept is
+significantly different from zero, and you can be very confident that
+the true average math score is not zero</td>
+</tr>
+</tbody>
+</table>
+</div>
 </div>
 <div id="include-female-as-a-level-1-predictor-but-only-model-the-intercept-as-a-random-factor.-again-interpret-all-parameters-you-can-ignore-the-correlation-of-fixed-effects." class="section level4">
 <h4>2. Include female as a level 1 predictor, but only model the
 intercept as a random factor. Again, interpret all parameters (you can
 ignore the ‘correlation of fixed effects’).</h4>
+<pre class="r"><code># Yij = 𝞬00 + 𝞬(10)Female(ij) + eij 
+m02 &lt;- lmer(math ~ female + (1 | schcode), data = d)
+summary(m02)</code></pre>
+<pre><code>## Linear mixed model fit by REML [&#39;lmerMod&#39;]
+## Formula: math ~ female + (1 | schcode)
+##    Data: d
+## 
+## REML criterion at convergence: 48843.4
+## 
+## Scaled residuals: 
+##     Min      1Q  Median      3Q     Max 
+## -3.5790 -0.5658  0.1874  0.6217  5.3706 
+## 
+## Random effects:
+##  Groups   Name        Variance Std.Dev.
+##  schcode  (Intercept) 10.53    3.244   
+##  Residual             66.24    8.139   
+## Number of obs: 6871, groups:  schcode, 419
+## 
+## Fixed effects:
+##             Estimate Std. Error t value
+## (Intercept)  58.2820     0.2135  272.97
+## female       -1.2076     0.2033   -5.94
+## 
+## Correlation of Fixed Effects:
+##        (Intr)
+## female -0.479</code></pre>
+<div id="interpretation-of-the-q2-summary" class="section level5">
+<h5>Interpretation of the Q2 Summary:</h5>
+<p><strong>REML:</strong></p>
+<p>criterion at convergence: 48843.4. This value is smaller than Q1 REML
+value: 48877.3, indicating this model is a better fit compared to the
+model1.</p>
+<p><strong>Scaled residuals:</strong></p>
+<pre><code>##     Min      1Q  Median      3Q     Max 
+## -3.5790 -0.5658  0.1874  0.6217  5.3706 </code></pre>
+<p>The most significant underestimation of the model was -3.5790. The
+1st quartile indicates where the lower 25% of residuals lie and it is
+-0.5658. Half of the schools had residuals smaller than 0.1874. A
+positive median suggests that the model is slightly more likely to
+underestimate the actual scores. 75% of the residuals are less than
+0.6217. And the largest overestimation by the model is 5.3706.</p>
+<p><strong>Random Effects:</strong></p>
+<pre><code>##  Groups   Name        Variance Std.Dev.
+##  schcode  (Intercept) 10.53    3.244   
+##  Residual             66.24    8.139   
+## Number of obs: 6871, groups:  schcode, 419</code></pre>
+<p>The residual terms for the school [u{0j)] is 10.53 and the
+corresponding SD is 3.244. This indicates that average deviation of math
+scores for all 419 schools is 10.53 from the intercept [𝞬(00)] 58.2820.
+This variance is the unexplained component of the model.</p>
+<p>Residual 66.24 is a measure of how much the math scores of individual
+students vary around the mean math score for their specific school,
+<u><em>after accounting for the random effects due to differences
+between schools.</em></u></p>
+<p><strong>Fixed Effects:</strong></p>
+<pre><code>##             Estimate Std. Error t value
+## (Intercept)  58.2820     0.2135  272.97
+## female       -1.2076     0.2033   -5.94</code></pre>
+<p>Compared to the male students, female students is estimated to have
+-1.2076 points in average accounting for the random effects of different
+schools.</p>
+</div>
 </div>
 <div id="remove-female-as-a-level-1-predictor-and-add-ses_mean-as-a-level-2-predictor.-again-interpret-all-parameters-you-can-ignore-the-correlation-of-fixed-effects.-recompute-the-icc-to-see-if-adding-the-level-2-predictor-ses_mean-reduced-the-proportion-of-variance-due-to-the-between--subjects-factor-i.e.-did-ses_mean-explain-a-significant-proportion-of-between-school-variance." class="section level4">
 <h4>3. Remove female as a level 1 predictor, and add ses_mean as a level

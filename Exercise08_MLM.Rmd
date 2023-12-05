@@ -1,0 +1,22 @@
+---
+title: "Exercise08_MLM"
+author: "Ken Suzuki"
+date: "2023-12-05"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+### In this exercise, we are interested in modeling math grades (math) of students who were nested within different schools (schcode). We are also interested in determining if the sex of the student (female, 0 = male; 1 = female) or the average socioeconomic status of the school (ses_mean) affects math grades. We are only going to focus on random intercept models, no random slope models. This exercise will use the dataset 'heck2011.csv', which is available on eClass. Use α = .05 for all questions.
+
+```{r}
+
+```
+
+#### 1. Run the null (intercept only) model (no predictors, but include schcode as the nesting variable). Interpret each of the parameters within the output. Also, calculate the proportion of variability attributable to the school variable (i.e., intraclass correlation coefficient, ICC).
+
+#### 2. Include female as a level 1 predictor, but only model the intercept as a random factor. Again, interpret all parameters (you can ignore the 'correlation of fixed effects').
+
+#### 3. Remove female as a level 1 predictor, and add ses_mean as a level 2 predictor. Again, interpret all parameters (you can ignore the 'correlation of fixed effects'). Recompute the ICC to see if adding the level 2 predictor ses_mean reduced the proportion of variance due to the between- subjects factor (i.e., did ses_mean explain a significant proportion of between school variance?).

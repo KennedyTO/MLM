@@ -104,6 +104,7 @@ is the residual error term for the i-th student in the j-th school. Residual 66.
 # Yij = 𝞬00 + 𝞬(10)Female(ij) + eij 
 m02 <- lmer(math ~ female + (1 | schcode), data = d)
 summary(m02)
+icc(m02)
 ```
 
 ##### Interpretation of the Q2 Summary:
@@ -161,6 +162,7 @@ Compared to the male students, female students is estimated to have -1.2076 poin
 #y(ij) = 𝞬(00) + 𝞬(01)*SES(j) + u(0j) + eij 
 m03 <- lmer(math ~ ses_mean + (1|schcode), data = d)
 summary(m03)
+icc(m03)
 ```
 
 ##### Interpretation of the Question 3:

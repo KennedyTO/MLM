@@ -61,7 +61,7 @@ REML gives the value that enables comparison with other models. For instance, th
 Scale residuals are the differences between the observed values and the values predicted by the model, adjusted to a common scale. This helps in comparing residuals of different sizes.
 
 | Min                                               | 1Q                                               | Median                                                                                                                                                    | 3Q                                            | Max                                             |
-|-------------|-------------|----------------------|-------------|-------------|
+|--------------|--------------|-----------------|--------------|--------------|
 | -3.6336                                           | -0.5732                                          | 0.1921                                                                                                                                                    | 0.6115                                        | 5.2989                                          |
 | The most significant underestimation by the model | 25% of the residuals are greater than this value | Half of the schools had residuals smaller than this. A positive median suggests that the model is slightly more likely to underestimate the actual scores | 75% of the residuals are less than this value | This is the largest overestimation by the model |
 
@@ -85,18 +85,20 @@ represents the overall average math score of all 419 schools, which stands as th
 
 **u(0j)**:
 
-10.64 is the random effect (the variability of the j-th school) away from 𝞬(00). It is the average variability of each school away from the overall average variability of 419 schools.
+When you say that the random intercepts of 'schcode' have a variance of 10.64, it means that the average math scores for each school (the intercepts) differ from the overall average math score (the fixed effect intercept) by 10.64. This number reflects the differences in average math scores between schools.
+
+This is captured by the random intercepts for schcode. Each school has its own intercept, which accounts for the fact that schools may vary in their average math scores. This variability is what the variance of the random intercepts (10.64 in your example) represents.
 
 **e(ij)**:
 
-is the residual error term for the i-th student in the j-th school. Residual 66.55 is a measure of how much the math scores of individual students vary around the mean math score for their specific school, [*after accounting for the random effects due to differences between schools.*]{.underline}
+is the residual error term for the i-th student in the j-th school. Residual 66.55 is a measure of how much the math scores of individual students vary around the mean math score around their respective school, [*after accounting for the random effects due to differences between schools.*]{.underline}
 
 **Fixed Effects:**
 
-|             | Estimate                                                                                                                      | SE                                                                                            | t-value                                                                                                                                                                  |
+|             | Estimate                                                                                                                                                                 | SE                                                                                           | t-value                                                                                                                                                                  |
 |------------------|------------------|------------------|------------------|
-| (Intercept) | 57.6742 [𝞬(00)]                                                                                                               | 0.1883                                                                                        | 306.3                                                                                                                                                                    |
-|             | This is the estimated average math score for the reference group. It's the estimated grand mean math score across all schools | The standard error measures the uncertainty or variability in the estimate of the intercept.  | The t-value is very high, suggesting that the intercept is significantly different from zero, and you can be very confident that the true average math score is not zero |
+| (Intercept) | 57.6742 [𝞬(00)]                                                                                                                                                          | 0.1883                                                                                       | 306.3                                                                                                                                                                    |
+|             | This is the estimated average math score for the reference group. It's the estimated grand mean math score across all schools while all other factors are held constant. | The standard error measures the uncertainty or variability in the estimate of the intercept. | The t-value is very high, suggesting that the intercept is significantly different from zero, and you can be very confident that the true average math score is not zero |
 
 #### 2. Include female as a level 1 predictor, but only model the intercept as a random factor. Again, interpret all parameters (you can ignore the 'correlation of fixed effects').
 
@@ -120,7 +122,7 @@ criterion at convergence: 48843.4. This value is smaller than Q1 REML value: 488
 ## -3.5790 -0.5658  0.1874  0.6217  5.3706 
 ```
 
-The most significant underestimation of the model was -3.5790. The 1st quartile indicates where the lower 25% of residuals lie and it is -0.5658. Half of the schools had residuals smaller than 0.1874. A positive median suggests that the model is slightly more likely to underestimate the actual scores. 75% of the residuals are less than 0.6217. And the largest overestimation by the model is 5.3706.
+The most significant underestimation of the model was -3.5790. The 1st quartile indicates where the lower 25% of residuals lie and it is -0.5658. Half of the schools had residuals smaller than 0.1874. A positive median suggests that the model is slightly more likely to overestimate the actual scores. 75% of the residuals are less than 0.6217. And the largest overestimation by the model is 5.3706.
 
 **Random Effects:**
 

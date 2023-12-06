@@ -357,15 +357,14 @@ display: none;
 </div>
 
 
-<div id="in-this-exercise-we-are-interested-in-modeling-math-grades-math-of-students-who-were-nested-within-different-schools-schcode.-we-are-also-interested-in-determining-if-the-sex-of-the-student-female-0-male-1-female-or-the-average-socioeconomic-status-of-the-school-ses_mean-affects-math-grades.-we-are-only-going-to-focus-on-random-intercept-models-no-random-slope-models.-this-exercise-will-use-the-dataset-heck2011.csv-which-is-available-on-eclass.-use-α-.05-for-all-questions." class="section level3">
-<h3>In this exercise, we are interested in modeling math grades (math)
-of students who were nested within different schools (schcode). We are
-also interested in determining if the sex of the student (female, 0 =
-male; 1 = female) or the average socioeconomic status of the school
-(ses_mean) affects math grades. We are only going to focus on random
-intercept models, no random slope models. This exercise will use the
-dataset ‘heck2011.csv’, which is available on eClass. Use α = .05 for
-all questions.</h3>
+<p>In this exercise, we are interested in modeling math grades (math) of
+students who were nested within different schools (schcode). We are also
+interested in determining if the sex of the student (female, 0 = male; 1
+= female) or the average socioeconomic status of the school (ses_mean)
+affects math grades. We are only going to focus on random intercept
+models, no random slope models. This exercise will use the dataset
+‘heck2011.csv’, which is available on eClass. Use α = .05 for all
+questions.</p>
 <pre class="r"><code># Load the data
 d &lt;- read.csv(&quot;~/Desktop/P4330/P4330 R code/Exercise09_MLM/MLM/heck2011.csv&quot;)
 head(d)</code></pre>
@@ -1053,6 +1052,20 @@ between schools.</em></u></p>
 <p>Compared to the male students, female students is estimated to have
 -1.2076 points in average accounting for the random effects of different
 schools.</p>
+<p><strong>[Ignore this component as per the Question 2] Correlation of
+Fixed Effects:</strong></p>
+<pre><code>##        (Intr)
+## female -0.479</code></pre>
+<p><em>This number tells you about the relationship between the
+intercept (the average math score for males, as males are likely the
+reference group here) and the effect of being female on the math score.
+The value of -0.479 indicates a moderate negative correlation.</em></p>
+<p><em>A negative correlation means that in schools where the average
+math score for males (the intercept) is higher, the difference in math
+scores between females and males (the female effect) tends to be
+smaller. Conversely, in schools where the average score for males is
+lower, the difference between females and males might be
+larger.</em></p>
 </div>
 </div>
 <div id="remove-female-as-a-level-1-predictor-and-add-ses_mean-as-a-level-2-predictor.-again-interpret-all-parameters-you-can-ignore-the-correlation-of-fixed-effects.-recompute-the-icc-to-see-if-adding-the-level-2-predictor-ses_mean-reduced-the-proportion-of-variance-due-to-the-between--subjects-factor-i.e.-did-ses_mean-explain-a-significant-proportion-of-between-school-variance." class="section level4">
@@ -1062,6 +1075,72 @@ schools.</p>
 level 2 predictor ses_mean reduced the proportion of variance due to the
 between- subjects factor (i.e., did ses_mean explain a significant
 proportion of between school variance?).</h4>
+<pre class="r"><code>#y(ij) = 𝞬(00) + 𝞬(01)*SES(j) + u(0j) + eij 
+m03 &lt;- lmer(math ~ ses_mean + (1|schcode), data = d)
+summary(m03)</code></pre>
+<pre><code>## Linear mixed model fit by REML [&#39;lmerMod&#39;]
+## Formula: math ~ ses_mean + (1 | schcode)
+##    Data: d
+## 
+## REML criterion at convergence: 48532.5
+## 
+## Scaled residuals: 
+##     Min      1Q  Median      3Q     Max 
+## -3.7226 -0.5640  0.1963  0.6545  5.3425 
+## 
+## Random effects:
+##  Groups   Name        Variance Std.Dev.
+##  schcode  (Intercept)  2.265   1.505   
+##  Residual             66.587   8.160   
+## Number of obs: 6871, groups:  schcode, 419
+## 
+## Fixed effects:
+##             Estimate Std. Error t value
+## (Intercept)  57.5475     0.1238  464.79
+## ses_mean      5.8918     0.2527   23.32
+## 
+## Correlation of Fixed Effects:
+##          (Intr)
+## ses_mean -0.053</code></pre>
+<div id="interpretation-of-the-question-3" class="section level5">
+<h5>Interpretation of the Question 3:</h5>
+<pre><code>## REML criterion at convergence: 48532.5</code></pre>
+<p>This is the smallest REML value out of the three models, indicating
+the model has a better fit to the data.</p>
+<pre><code>## Scaled residuals: 
+##     Min      1Q  Median      3Q     Max 
+## -3.7226 -0.5640  0.1963  0.6545  5.3425 </code></pre>
+<p>The minimum scaled residual of -3.7226 is the most significant
+underestimation by the model and the first 25% of the target population
+scored -0.5640 or less. The positive median value of 0.1963 indicates
+that the model is slightly more likely to underestimate the actual
+scores. 3Q values of 0.6545 indicates that 75% of residuals are less
+than 0.6545. The maximum overestimation by the model is 5.3425.</p>
+<pre><code>## Random effects:
+##  Groups   Name        Variance Std.Dev.
+##  schcode  (Intercept)  2.265   1.505   
+##  Residual             66.587   8.160   
+## Number of obs: 6871, groups:  schcode, 419</code></pre>
+<p>The variance of random effect for “schcode [u(0j)]” (2.265)
+represents <u><em>the variability in the average math scores across
+different schools</em></u>. This variance indicates how much the average
+score for each school deviates from the overall average math score (𝞬00)
+of 57.5475.</p>
+<p>The random effect for schcode [2.265 = u(0j)] is the variability in
+the average math scores across different schools that is away from the
+grand mean of math scores</p>
+<pre><code>## Fixed effects:
+##             Estimate Std. Error t value
+## (Intercept)  57.5475     0.1238  464.79
+## ses_mean      5.8918     0.2527   23.32</code></pre>
+<p>The estimated fixed effects of average SES indicates that a unit
+increase in the average SES is expected to increase the average math
+score per school by 5.8918 while holding the random effect. This effect
+is calculated after accounting for the variability between schools
+(random effects). It means that, controlling for the fact that different
+schools have different baseline math scores, schools with higher average
+SES tend to have higher average math scores by about 5.8918 points for
+each unit increase in SES.</p>
 </div>
 </div>
 
